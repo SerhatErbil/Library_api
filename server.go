@@ -14,7 +14,7 @@ import (
 
 type User struct {
 	Username string `json:"username" bson:"username"`
-	Password string `json:"password" bson:"password"` 
+	Password string `json:"password" bson:"password"`
 }
 
 type Book struct {
@@ -42,7 +42,7 @@ func connectMongo() {
 	log.Println("MongoDB'ye bağlandı.")
 }
 
-var users = map[string]string{} 
+var users = map[string]string{}
 var books = map[string]string{}
 
 func AuthMiddleware(c *fiber.Ctx) error {
@@ -59,12 +59,10 @@ func AuthMiddleware(c *fiber.Ctx) error {
 		return c.Status(400).JSON(fiber.Map{"error": "Username eksik"})
 	}
 
-	
 	if _, ok := users[body.Username]; !ok {
 		return c.Status(401).JSON(fiber.Map{"error": "Yetkisiz erişim"})
 	}
 
-	
 	c.Locals("username", body.Username)
 
 	return c.Next()
